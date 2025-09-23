@@ -1,0 +1,31 @@
+            <!-- Back Button and Course Title -->
+            <div class="flex items-center">
+                <button id="btn-back" class="flex items-center mr-6 text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+                    <div class="w-5 h-5 flex items-center justify-center mr-1">
+                        <i class="ri-arrow-left-line"></i>
+                    </div>              
+                    <span class="text-md font-semibold text-gray-900 dark:text-white">Retour</span>
+                </button>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center space-x-4">
+                <!-- Search Bar -->
+                <div class="relative hidden lg:block">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                    <input type="search"
+                        class="bg-gray-100 text-black dark:text-white dark:bg-dark dark:bg-opacity-30 text-gray-900 dark:text-white border-none text-sm rounded-full pl-10 pr-4 py-2 w-64 focus:ring-2 focus:ring-primary"
+                        placeholder="Search courses, resources...">
+                </div>
+                <div
+                    class=" relative w-10 h-10 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary cursor-pointer">
+                    <i id="theme" class="ri-sun-line text-xl"></i>
+                </div>
+            </div>
+        
+
+    <script src="storage/js_style/historyBack.js"></script>
