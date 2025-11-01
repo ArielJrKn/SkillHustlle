@@ -33,6 +33,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'verification_token',
+        'google_id',
+        'avatar',
         'password',
         'remember_token',
     ];
@@ -56,5 +63,16 @@ class User extends Authenticatable
 
     public function comments(){
         return $this->hasMany(Comment::class);
+    }
+
+    public function views(){
+        return $this->hasMany(Views::class);
+    }
+    public function followers(){
+        return $this->hasMany(User::class);
+    }
+
+    public function Notifications(){
+        return $this->hasMany(Notification::class);
     }
 }

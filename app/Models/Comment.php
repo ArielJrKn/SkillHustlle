@@ -10,7 +10,9 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'post_id',
+        'type',
         'user_id',
+        'comment_id',
     ];
 
     protected $touches = ['posts']; // ça met à jour updated_at du post automatiquement
@@ -18,6 +20,11 @@ class Comment extends Model
     public function medias()
     {
         return $this->hasMany(Media::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
     public function posts(){

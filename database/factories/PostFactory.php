@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class PostFactory extends Factory
         return [
             'content' => fake()->sentence(125),
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
+            'type' => 'simplePost',
             'created_at' => now(),
             'updated_at' => now(),
         ];

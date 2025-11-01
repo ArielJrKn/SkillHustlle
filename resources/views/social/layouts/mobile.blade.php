@@ -55,20 +55,25 @@
                         </a>
 
                         <div class="flex flex-col text-sm gap-2">
-                            Ici les pages respectifs pour chaque acteurs de la platformes
-                             <a href="students/Student-Dashboard.html" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
-                                    Mode apprenant
-                                </a>
-
-                                <a href="formateur/dashboard.html" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
-                                    Mode formateur
-                                </a>
-                                <a href="recruit/dashboard.html" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
-                                    Mode entreprise
-                                </a>
-                                <a href="admin/dashboard.html" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
-                                    Mode administrateur
-                                </a>
+                            @auth
+                                @if(Auth::user()->role === 'apprenant')
+                                    <a href="{{route('students.dashboard')}}" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
+                                        continuer en tant qu'apprenant
+                                    </a>
+                                @elseif(Auth::user()->role === 'formateur')
+                                    <a href="{{route('teacher.dashboard')}}" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
+                                        continuer en tant que formateur
+                                    </a>
+                                @elseif(Auth::user()->role === 'entreprise')
+                                    <a href="{{route('entreprise.dashboard')}}" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
+                                        continuer en tant qu'entreprise
+                                    </a>
+                                @elseif(Auth::user()->role === 'admin')
+                                    <a href="{{route('admin.dashboard')}}" class="p-2 bg-primary bg-opacity-20 hover:bg-opacity-50 rounded-md">
+                                        continuer en tant qu'administrateur
+                                    </a>
+                                @endif
+                            @endauth
                         </div>
                     </nav>
                         <div class="mt-auto pt-4 border-t border-gray-700">

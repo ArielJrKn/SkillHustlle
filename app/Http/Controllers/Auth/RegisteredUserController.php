@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Enums\NotificationType;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('Auth.inscription');
     }
 
     /**
@@ -121,6 +122,14 @@ class RegisteredUserController extends Controller
                 $message = "👋 Bienvenue sur SkillHustle, {$user->name}!";
                 break;
         }
+
+            Notification::create([
+                'type' => NotificationType::SYSTEM,
+                'message' => "Bienvenue sur SkillHustle, la plateforme qui met en valeur vos compétences et votre savoir-faire.
+                                Afin de renforcer votre crédibilité en tant qu’utilisateur agréé, nous vous recommandons de renseigner
+                                vos informations complémentaires pour compléter votre profil. Merci et bonne continuation sur SkillHustle !",
+                'sender_id' => Auth::id(),
+            ]);
         
 
         return redirect(route('social.index', absolute: false))->with('message', $message);

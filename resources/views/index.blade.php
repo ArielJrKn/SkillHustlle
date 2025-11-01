@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SkillHustle | Home</title>
-    <link rel="stylesheet" type="text/css" href="storage/style/progresseBar.css">
     <link rel="stylesheet" type="text/css" href="storage/style/scroll.css">
     <link rel="stylesheet" type="text/css" href="storage/style/carrousel.css">
     <!-- <link rel="stylesheet" type="text/css" href="storage/style/switchAction.css"> -->
@@ -32,6 +32,35 @@
 
     .commentaireForm.active {
         border-radius: 20px;
+    }
+
+    .course-menu{
+        width: 200px;
+        transition: all 0.3s;
+    }
+    .like{
+        transition: 0.3S ease;
+    }
+    .like.active{
+        background-color: rgba(74, 144, 226, 0.6);
+        animation: transit 0.7s;
+    }
+    .boutonCommentaire{
+        display: flex;
+        align-items: center;
+        gap: 1;
+        transition: 2s;
+        border-radius: 20px;
+    }
+    .boutonCommentaire.active{
+        position: absolute;
+        height: 200px;
+        width: 100%;
+        border-radius: 20px;
+        left: 0%;
+        right: 50%;
+        bottom: 0;
+        transition: 2s;
     }
 </style>
 
@@ -74,8 +103,13 @@
                                     @csrf
                                     <div class="flex items-center space-x-4">
                                         @auth
-                                        <img src="{{Auth::user()->avatar}}" alt="Your Avatar"
+                                            @if(Auth::user()->avatar === null)
+                                                <img src="storage/media/avatar.jpg" alt="Your Avatar"
                                             class="w-10 h-10 rounded-full object-cover">
+                                            @else
+                                                <img src="{{Auth::user()->avatar}}" alt="Your Avatar"
+                                                class="w-10 h-10 rounded-full object-cover">
+                                            @endif
                                         @endauth
                                         <div
                                             class="flex-1 flex-col text-gray-900 dark:text-gray-100 bg-white bg-opacity-30 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-primary">
@@ -119,512 +153,9 @@
                                     </div>
                                 </form>
 
+                                @include('social.components.lastpost')
 
-
-                                <article class="bg-primary bg-opacity-20 rounded-md p-6"
-                                    data-post-id="{{ $lastPost->id }}">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex align-center ">
-                                            <img src="{{ $lastPost->users->avatar }}"
-                                                class="w-10 h-10 rounded-full object-cover">
-                                            <div class="flex ml-3 flex-col">
-                                                <h3 class="font-semibold">{{$lastPost->users->name}}</h3>
-                                                <p class="text-sm text-primary">Computer Science Professor</p>
-                                            </div>
-                                        </div>
-
-                                        @if(Auth::id() === $lastPost->users->id)
-                                        <div class="relative">
-                                            <button class="course-menu-btn p-2 text-white hover:bg-opacity-30 rounded-full hover:bg-white transition-all">
-                                                <div class="w-5 h-5 flex items-center justify-center">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </div>
-                                            </button>
-                                            <div class="course-menu hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-filter backdrop-blur-lg bg-black bg-opacity-20 z-10 dropdown-menu">
-                                                <div class="py-1">
-                                                    <a href="{{route('social.editPost', $lastPost)}}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:bg-opacity-30">
-                                                        <div class="flex items-center">
-                                                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                                <i class="ri-edit-line"></i>
-                                                            </div>
-                                                            <span>Modifier</span>
-                                                        </div>
-                                                    </a>
-                                                    
-                                                    <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 hover:bg-opacity-30">
-                                                        <div class="flex items-center">
-                                                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                                <i class="ri-delete-bin-line"></i>
-                                                            </div>
-                                                            <span>Supprimer</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="mt-4 bg">
-                                        {{$lastPost->content}}
-                                    </div>
-
-                                    @php
-                                    $postMedias = $lastPost->medias->where('type', 'post');
-                                    @endphp
-
-                                    @if($postMedias->count() > 1)
-                                    <div class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                        <div class="carousel">
-                                            <div class="slides">
-                                                @foreach($postMedias as $media)
-                                                @if(pathinfo($media->path, PATHINFO_EXTENSION) === 'mp4')
-                                                <video src="{{ asset('storage/' . $media->path) }}" controls autoplay
-                                                    class="w-full h-full object-cover rounded-md"></video>
-                                                @else
-                                                <img src="{{ asset('storage/' . $media->path) }}"
-                                                    class="w-full h-64 object-cover rounded-md">
-                                                @endif
-                                                @endforeach
-                                            </div>
-                                            <button class="btn prev">&#10094;</button>
-                                            <button class="btn next">&#10095;</button>
-                                        </div>
-                                    </div>
-                                    @elseif($postMedias->count() === 1)
-                                    <div class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                        @foreach($postMedias as $media)
-                                        @if(pathinfo($media->path, PATHINFO_EXTENSION) === 'mp4')
-                                        <video src="{{ asset('storage/' . $media->path) }}" controls autoplay
-                                            class="w-full h-96 object-cover rounded-md"></video>
-                                        @else
-                                        <img src="{{ asset('storage/' . $media->path) }}"
-                                            class="w-full h-64 object-cover rounded-md">
-                                        @endif
-                                        @endforeach
-                                    </div>
-                                    @endif
-
-
-
-                                    <div class="mt-4 text-xs text-primary foot flex items-center justify-between">
-                                        <div class="icone">
-                                            <i
-                                                class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
-                                            <i class="ri-chat-3-line comment bg-primary bg-opacity-20 px-4 py-2 rounded-md"
-                                                data-post-id="{{ $lastPost->id }}"></i>
-                                            <i class="ri-share-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
-                                        </div>
-
-                                        <div class="info_foot flex gap-2">
-                                            <h2>1.2k likes </h2>
-                                            <h2 class="hidden lg:flex md:flex">܀</h2>
-                                            <h2 class="hidden lg:flex md:flex">{{$lastPost->comments->Count() }} comments</h2>
-                                            <h2 class="hidden lg:flex md:flex">܀ </h2>
-                                            <h2 class="hidden lg:flex md:flex">A l'instant</h2>
-                                        </div>
-                                    </div>
-
-                                    <div class="commentBox" id="commentBox-{{ $lastPost->id }}">
-                                        <div
-                                            class="pt-4 mt-4 border-t border-6 border-primary w-full h-96 overflow-y-auto">
-                                            @auth
-                                            @if($lastPost->comments->Count() > 0)
-                                            @foreach($lastPost->comments as $comment)
-                                            <div
-                                                class="{{ $comment->users->id === Auth::id() ? 'infoInComment flex items-start justify-end mt-4' : 'infoOutComment flex items-start mt-4' }}">
-
-                                                {{-- Avatar si ce n’est pas moi --}}
-                                                @if($comment->users->id !== Auth::id())
-                                                    @if($comment->users->avatar !== null)
-                                                        @if(\Illuminate\Support\Str::contains($comment->users->avatar, 'https://lh3.googleusercontent.com'))
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{$comment->users->avatar}}">
-                                                        @else
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{asset('storage/'. avatar)}}">
-                                                        @endif
-                                                    @else
-                                                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
-                                                    @endif
-
-                                                @endif
-
-                                                <div class="max-w-full w-4/5">
-                                                    <div
-                                                        class="ml-3 bg-primary bg-opacity-20 p-2 rounded-lg max-w-full">
-                                                        <div class="flex gap-2 items-center">
-                                                            <h3 class="text-sm font-bold">{{$comment->users->name}}</h3>
-                                                            <h4 class="text-sm">
-                                                                {{$comment->created_at->diffForHumans()}}</h4>
-                                                        </div>
-                                                        <p class="text-sm break-words">{{$comment->content}}</p>
-
-                                                        <div class="gap-2 flex items-center flex-wrap w-full mt-2">
-                                                            @if($comment->medias->Count() > 1)
-                                                            <div
-                                                                class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                                                <div class="carousel">
-                                                                    <div class="slides">
-                                                                        @foreach($comment->medias as $media)
-                                                                        @if(\Illuminate\Support\str::contains($media,
-                                                                        'mp4'))
-                                                                        <video
-                                                                            src="{{ asset('storage/' . $media->path) }}"
-                                                                            controls autoplay
-                                                                            class="w-full h-64 object-cover rounded-md"></video>
-                                                                        @else
-                                                                        <img src="{{ asset('storage/' . $media->path) }}"
-                                                                            class="w-full h-64 object-cover rounded-md">
-                                                                        @endif
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <button class="btn prev">&#10094;</button>
-                                                                    <button class="btn next">&#10095;</button>
-                                                                </div>
-                                                            </div>
-
-                                                            @elseif($comment->medias->Count() === 1)
-                                                            <div
-                                                                class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                                                @foreach($comment->medias as $media)
-                                                                @if(\Illuminate\Support\str::contains($media, 'mp4'))
-                                                                <video src="{{ asset('storage/' . $media->path) }}"
-                                                                    controls autoplay
-                                                                    class="w-full h-64 object-cover rounded-md"></video>
-                                                                @else
-                                                                <img src="{{ asset('storage/' . $media->path) }}"
-                                                                    class="w-full h-64 object-cover rounded-md">
-                                                                @endif
-                                                                @endforeach
-                                                            </div>
-                                                            @endif
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="ml-3 flex mt-2 items-center gap-2">
-                                                        <div
-                                                            class="cursor-pointer hover:bg-primary hover:bg-opacity-60 transition-colors flex gap-1 items-center bg-primary bg-opacity-20 px-2 py-1 rounded-full">
-                                                            <i class="like ri-heart-line"></i>
-                                                            <h4>123</h4>
-                                                        </div>
-
-                                                        @if(Auth::id() === $comment->user_id)
-                                                        <div
-                                                            class="cursor-pointer hover:bg-primary hover:bg-opacity-60 transition-colors flex gap-1 items-center bg-primary bg-opacity-20 px-2 py-1 rounded-full">
-                                                            <i class="like ri-edit-line"></i>
-                                                            <h4>Modifier</h4>
-                                                        </div>
-
-                                                        <div
-                                                            class="cursor-pointer hover:bg-red-900 hover:bg-opacity-90 flex gap-1 items-center bg-red-900 bg-opacity-70 px-2 py-1 rounded-full">
-                                                            <i class="like ri-delete-bin-line text-red-400"></i>
-                                                            <h4 class="text-red-400">Supprimer</h4>
-                                                        </div>
-                                                        @endif
-
-                                                        <div>repondre</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                            @else
-                                            <div class="w-full h-full flex items-center justify-center">
-                                                <h1>Aucun commentaire sous ce postes...Soyez le premier à en faire</h1>
-                                            </div>
-                                            @endif
-                                            @endauth
-                                        </div>
-
-                                        <form method="POST" action="{{route('createComment', $lastPost->id)}}"
-                                            class="commentaireForm p-1 flex flex-col w-full justify-between items-center mt-4 text-gray-900 dark:text-gray-100 bg-white bg-opacity-30 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-primary"
-                                            data-post-id="{{ $lastPost->id }}" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="w-full contentDisplayed flex gap-1 flex-wrap"
-                                                id="preview-{{ $lastPost->id }}">
-                                            </div>
-
-                                            <div class="w-full flex items-center justify-between">
-                                                <div class=" flex items-center">
-                                                    <label for="phtInput-{{ $lastPost->id }}" class="p-1">
-                                                        <i class="ri-image-line ri-lg"></i>
-                                                    </label>
-                                                    <input type="file" name="path[]" accept="image/*" multiple
-                                                        id="phtInput-{{ $lastPost->id }}" hidden>
-
-                                                    <label for="vdoInput-{{ $lastPost->id }}" class="p-1">
-                                                        <i class="ri-video-line ri-lg"></i>
-                                                    </label>
-                                                    <input type="file" name="path[]" accept="video/*" multiple
-                                                        id="vdoInput-{{ $lastPost->id }}" hidden>
-                                                </div>
-
-                                                <input type="text" name="content" placeholder="Votre commentaire..."
-                                                    class="outline-none bg-transparent px-4 py-3 w-full">
-
-                                                <div class="flex items-center">
-                                                    <button type="submit"
-                                                        class="p-3 px-4 bg-primary bg-opacity-40 rounded-full">
-                                                        <i class="ri-send-plane-fill"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </article>
-
-
-
-                                @foreach($posts as $post)
-
-                                <article class="bg-primary bg-opacity-20 rounded-md p-6" data-post-id="{{ $post->id }}">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex align-center ">
-                                            <img src="{{ $post->users->avatar }}"
-                                                class="w-10 h-10 rounded-full object-cover">
-                                            <div class="flex ml-3 flex-col">
-                                                <h3 class="font-semibold">{{$post->users->name}}</h3>
-                                                <p class="text-sm text-primary">Computer Science Professor</p>
-                                            </div>
-                                        </div>
-
-                                        @if(Auth::id() === $post->users->id)
-                                        <div class="relative">
-                                            <button class="course-menu-btn p-2 text-white hover:bg-opacity-30 rounded-full hover:bg-white transition-all">
-                                                <div class="w-5 h-5 flex items-center justify-center">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </div>
-                                            </button>
-                                            <div class="course-menu hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg backdrop-filter backdrop-blur-lg bg-black bg-opacity-20 z-10 dropdown-menu">
-                                                <div class="py-1">
-                                                    <a href="createCourse.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:bg-opacity-30">
-                                                        <div class="flex items-center">
-                                                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                                <i class="ri-edit-line"></i>
-                                                            </div>
-                                                            <span>Modifier</span>
-                                                        </div>
-                                                    </a>
-                                                    
-                                                    <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 hover:bg-opacity-30">
-                                                        <div class="flex items-center">
-                                                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                                <i class="ri-delete-bin-line"></i>
-                                                            </div>
-                                                            <span>Supprimer</span>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="mt-4 bg">
-                                        {{$post->content}}
-                                    </div>
-                                    @php
-                                    $postMedias = $post->medias->where('type', 'post');
-                                    @endphp
-
-                                    @if($postMedias->count() > 1)
-                                    <div class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                        <div class="carousel">
-                                            <div class="slides">
-                                                @foreach($postMedias as $media)
-                                                @if(pathinfo($media->path, PATHINFO_EXTENSION) === 'mp4')
-                                                <video src="{{ asset('storage/' . $media->path) }}" controls autoplay
-                                                    class="w-full h-64 object-cover rounded-md"></video>
-                                                @else
-                                                <img src="{{ asset('storage/' . $media->path) }}"
-                                                    class="w-full h-64 object-cover rounded-md">
-                                                @endif
-                                                @endforeach
-                                            </div>
-                                            <button class="btn prev">&#10094;</button>
-                                            <button class="btn next">&#10095;</button>
-                                        </div>
-                                    </div>
-                                    @elseif($postMedias->count() === 1)
-                                    <div class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                        @foreach($postMedias as $media)
-                                        @if(pathinfo($media->path, PATHINFO_EXTENSION) === 'mp4')
-                                        <video src="{{ asset('storage/' . $media->path) }}" controls autoplay
-                                            class="w-full h-64 object-cover rounded-md"></video>
-                                        @else
-                                        <img src="{{ asset('storage/' . $media->path) }}"
-                                            class="w-full h-64 object-cover rounded-md">
-                                        @endif
-                                        @endforeach
-                                    </div>
-                                    @endif
-
-
-                                    <div class="mt-4 text-xs text-primary foot flex items-center justify-between">
-                                        <div class="icone">
-                                            <i
-                                                class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
-                                            <i class="ri-chat-3-line comment bg-primary bg-opacity-20 px-4 py-2 rounded-md"
-                                                data-post-id="{{ $post->id }}"></i>
-                                            <i class="ri-share-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
-                                        </div>
-
-                                        <div class="info_foot flex gap-2">
-                                            <h2>1.2k likes </h2>
-                                            <h2 class="hidden lg:flex md:flex">܀</h2>
-                                            <h2 class="hidden lg:flex md:flex">4k comments</h2>
-                                            <h2 class="hidden lg:flex md:flex">܀ </h2>
-                                            <h2 class="hidden lg:flex md:flex">A l'instant</h2>
-                                        </div>
-                                    </div>
-
-                                    <div class="commentBox" id="commentBox-{{ $post->id }}">
-                                        <div
-                                            class="pt-4 mt-4 border-t border-6 border-primary w-full h-96 overflow-y-auto">
-                                            @auth
-                                            @if($post->comments->Count() > 0)
-                                            @foreach($post->comments as $comment)
-                                            <div
-                                                class="{{ $comment->users->id === Auth::id() ? 'infoInComment flex items-start justify-end mt-4' : 'infoOutComment flex items-start mt-4' }}">
-
-                                                {{-- Avatar si ce n’est pas moi --}}
-                                                @if($comment->users->id !== Auth::id())
-                                                    @if($comment->users->avatar !== null)
-                                                        @if(\Illuminate\Support\Str::contains($comment->users->avatar, 'https://lh3.googleusercontent.com'))
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{$comment->users->avatar}}">
-                                                        @else
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{asset('storage/'. avatar)}}">
-                                                        @endif
-                                                    @else
-                                                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
-                                                    @endif
-
-                                                @endif
-
-                                                <div class="max-w-full w-4/5">
-                                                    <div
-                                                        class="ml-3 bg-primary bg-opacity-20 p-2 rounded-lg max-w-full">
-                                                        <div class="flex gap-2 items-center">
-                                                            <h3 class="text-sm font-bold">{{$comment->users->name}}</h3>
-                                                            <h4 class="text-sm">
-                                                                {{$comment->created_at->diffForHumans()}}</h4>
-                                                        </div>
-                                                        <p class="text-sm break-words">{{$comment->content}}</p>
-                                                        <div class="gap-2 flex items-center flex-wrap w-full mt-2">
-                                                            @if($comment->medias->Count() > 1)
-                                                            <div
-                                                                class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                                                <div class="carousel">
-                                                                    <div class="slides">
-                                                                        @foreach($comment->medias as $media)
-                                                                        @if(\Illuminate\Support\str::contains($media,
-                                                                        'mp4'))
-                                                                        <video
-                                                                            src="{{ asset('storage/' . $media->path) }}"
-                                                                            controls autoplay
-                                                                            class="w-full h-64 object-cover rounded-md"></video>
-                                                                        @else
-                                                                        <img src="{{ asset('storage/' . $media->path) }}"
-                                                                            class="w-full h-64 object-cover rounded-md">
-                                                                        @endif
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <button class="btn prev">&#10094;</button>
-                                                                    <button class="btn next">&#10095;</button>
-                                                                </div>
-                                                            </div>
-
-                                                            @elseif($comment->medias->Count() === 1)
-                                                            <div
-                                                                class="flex-wrap w-full flex gap-2 mt-4 items-center justify-center">
-                                                                @foreach($comment->medias as $media)
-                                                                @if(\Illuminate\Support\str::contains($media, 'mp4'))
-                                                                <video src="{{ asset('storage/' . $media->path) }}"
-                                                                    controls autoplay
-                                                                    class="w-full h-64 object-cover rounded-md"></video>
-                                                                @else
-                                                                <img src="{{ asset('storage/' . $media->path) }}"
-                                                                    class="w-full h-64 object-cover rounded-md">
-                                                                @endif
-                                                                @endforeach
-                                                            </div>
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="ml-3 flex mt-2 items-center gap-2">
-                                                        <div
-                                                            class="cursor-pointer hover:bg-primary hover:bg-opacity-60 transition-colors flex gap-1 items-center bg-primary bg-opacity-20 px-2 py-1 rounded-full">
-                                                            <i class="like ri-heart-line"></i>
-                                                            <h4>123</h4>
-                                                        </div>
-
-                                                        @if(Auth::id() === $comment->user_id)
-                                                        <div
-                                                            class="cursor-pointer hover:bg-primary hover:bg-opacity-60 transition-colors flex gap-1 items-center bg-primary bg-opacity-20 px-2 py-1 rounded-full">
-                                                            <i class="like ri-edit-line"></i>
-                                                            <h4>Modifier</h4>
-                                                        </div>
-
-                                                        <div
-                                                            class="cursor-pointer hover:bg-red-900 hover:bg-opacity-90 flex gap-1 items-center bg-red-900 bg-opacity-70 px-2 py-1 rounded-full">
-                                                            <i class="like ri-delete-bin-line text-red-400"></i>
-                                                            <h4 class="text-red-400">Supprimer</h4>
-                                                        </div>
-                                                        @endif
-
-                                                        <div>repondre</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                            @else
-                                            <div class="w-full h-full flex items-center justify-center">
-                                                <h1>Aucun commentaire sous ce postes...Soyez le premier à en faire</h1>
-                                            </div>
-                                            @endif
-                                            @endauth
-                                        </div>
-
-                                        <form method="POST" action="{{route('createComment', $post->id)}}"
-                                            class="commentaireForm p-1 flex flex-col w-full justify-between items-center mt-4 text-gray-900 dark:text-gray-100 bg-white bg-opacity-30 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:border-primary"
-                                            data-post-id="{{ $post->id }}" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="w-full contentDisplayed flex gap-1 flex-wrap"
-                                                id="preview-{{ $post->id }}">
-                                            </div>
-
-                                            <div class="w-full flex items-center justify-between">
-                                                <div class=" flex items-center">
-                                                    <label for="phtInput-{{ $post->id }}" class="p-1">
-                                                        <i class="ri-image-line ri-lg"></i>
-                                                    </label>
-                                                    <input type="file" name="path[]" accept="image/*" multiple
-                                                        id="phtInput-{{ $post->id }}" hidden>
-
-                                                    <label for="vdoInput-{{ $post->id }}" class="p-1">
-                                                        <i class="ri-video-line ri-lg"></i>
-                                                    </label>
-                                                    <input type="file" name="path[]" accept="video/*" multiple
-                                                        id="vdoInput-{{ $post->id }}" hidden>
-                                                </div>
-
-                                                <input type="text" name="content" placeholder="Votre commentaire..."
-                                                    class="outline-none bg-transparent px-4 py-3 w-full">
-
-                                                <div class="flex items-center">
-                                                    <button type="submit"
-                                                        class="p-3 px-4 bg-primary bg-opacity-40 rounded-full">
-                                                        <i class="ri-send-plane-fill"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </article>
-
-                                @endforeach
+                                @include('social.components.posts')
 
                             </div>
                         </main>
@@ -648,6 +179,90 @@
                 @include('layouts.msg')
             </aside>
 
+        </div>
+    </div>
+
+    <div id="shareModal"
+        class="absolute hidden w-full top-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-2xl"
+        style="height: 100%;">
+        <div id="shareModalContent" class="lg:w-2/5 bg-white bg-opacity-10 rounded-md">
+            <div class="flex items-center p-3">
+                <div class="flex w-full items-center justify-start">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 bg-opacity-80 flex items-center justify-center text-blue-600">
+                        <i class="ri-share-line"></i>
+                    </div>
+
+                    <h3 class="text-lg font-semibold ml-3">Partager cette publication</h3>
+                </div>
+
+                <div class="shareModalClose cursor-pointer w-full flex justify-end p-3">
+                    <i class="ri-close-line ri-lg"></i>                    
+                </div>
+            </div>
+            <div class="">
+                <p class="text-lg text-gray-300">
+                    <div>
+                        <form id="receivePostContentForm" method="POST" >
+                            @csrf
+                            <button type="submit" class="w-full">
+                                 <div class="shareLikePost w-full border-t border-1 border-gray-500 hover:bg-white hover:bg-opacity-20 transition-all justify-start flex items-center p-4">En tant que publication</div>
+                            </button>
+                        </form>
+                       
+
+                        <form id="shareForm" class="bg-primary bg-opacity-20 rounded-md p-3 mx-3 hidden" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="flex items-center space-x-4">
+                                @auth
+                                    @if(Auth::user()->avatar === null)
+                                        <img src="storage/media/avatar.jpg" alt="Your Avatar"
+                                    class="w-10 h-10 rounded-full object-cover">
+                                    @else
+                                        <img src="{{Auth::user()->avatar}}" alt="Your Avatar"
+                                        class="w-10 h-10 rounded-full object-cover">
+                                    @endif
+                                @endauth
+                                <div
+                                    class="flex-1 flex-col text-gray-900 dark:text-gray-100 bg-white bg-opacity-30 rounded-lg px-2 py-2 text-sm focus:outline-none focus:border-primary">
+                                    <div class="content flex items-center justify-start flex-wrap">
+
+                                    </div>
+
+                                    <input type="text" name="content"
+                                        placeholder="Voulez vous ajouté quelque chose...?"
+                                        class="w-full flex-1 bg-transparent text-gray-900 dark:text-gray-100 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary">
+                                </div>
+                            </div>
+
+                            @include('social.components.post')
+
+                            <div class="w-full flex items-center justify-between p-3 hidden" id="shareFormBtns">
+                                <div class="">
+                                    <div id="shareFormBack" 
+                                        class="cursor-pointer mt-2 flex justify-end rounded-button border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm !rounded-button whitespace-nowrap">
+                                        Retour
+                                    </div>
+                                </div>
+
+                                <button type="submit" form="shareForm" class="bg-primary text-white px-6 py-2 mt-2 rounded-full text-sm hover:bg-opacity-80 !rounded-button whitespace-nowrap">
+                                    <h3>Post</h3>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="shareOptions" class="">
+                        <form id="shareOption">
+                            <button class="w-full border-t border-1 border-gray-500 hover:bg-white hover:bg-opacity-20 transition-all justify-start flex items-center p-4">En tant que message</button>
+                        </form>
+
+                        <form id="shareOption">
+                            <button class="w-full border-t border-1 border-gray-500 hover:bg-white hover:bg-opacity-20 transition-all justify-start flex items-center p-4">Copier le lien de la publication</button>
+                        </form>
+                    </div>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -691,6 +306,74 @@
     <script src="storage/js_style/formateur/mesCours.js"></script>
 
     <script src="{{asset('storage/js_style/index.js')}}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareModal = document.getElementById('shareModal');
+            const shareLikePost = document.querySelector('.shareLikePost');
+            const shareOptions = document.getElementById('shareOptions');
+            const shareForm = document.getElementById('shareForm');
+            const shareFormBtns = document.getElementById('shareFormBtns');
+            const shareFormBack = document.getElementById('shareFormBack');
+            const receivePostContentForm = document.getElementById('receivePostContentForm');
+            const shareModalClose = document.querySelector('.shareModalClose');
+
+            let currentPostId = null; //  on garde en mémoire le post actif
+
+            // Quand on clique sur un bouton de partage
+            document.querySelectorAll('.shareBtns').forEach(shareBtn => {
+                shareBtn.addEventListener('click', function() {
+                    currentPostId = this.dataset.postId; // enregistre le post cliqué
+                    shareModal.classList.remove('hidden');
+                });
+            });
+
+            // Partager le post
+            shareLikePost.addEventListener('click', function() {
+                shareOptions.classList.add('hidden');
+                shareForm.classList.remove('hidden');
+                shareLikePost.classList.add('hidden');
+                shareFormBtns.classList.remove('hidden');
+            });
+
+            // Bouton "Retour"
+            shareFormBack.addEventListener('click', function() {
+                shareOptions.classList.remove('hidden');
+                shareForm.classList.add('hidden');
+                shareLikePost.classList.remove('hidden');
+                shareFormBtns.classList.add('hidden');
+            });
+
+            // Fermeture du modal
+            shareModalClose.addEventListener('click', function() {
+                // Toujours repasser par le reset avant de fermer
+                shareFormBack.click();
+                shareModal.classList.add('hidden');
+            });
+
+            // Soumission du formulaire
+            receivePostContentForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const url = `/sharePostContent/${currentPostId}`;
+                shareForm.action = `/sharePost/${currentPostId}`;
+                const formData = new FormData(receivePostContentForm);
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { "X-Requested-With": "XMLHttpRequest" }
+                    });
+
+                    const postContent = await response.text();
+                    document.getElementById("postContent").outerHTML = postContent;
+                } catch (error) {
+                    console.error("Erreur :", error);
+                }
+            });
+        });
+    </script>
+
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             const messageModal = document.getElementById('messageModal');
@@ -717,8 +400,10 @@
         window.addEventListener('DOMContentLoaded', function () {
             const pop = document.querySelector('.pop');
             const msgContentLaravel = document.querySelector('.msgContentLaravel');
-            pop.remove();
+            pop.style.display ='none';
             @if (session('success')) {
+            pop.style.display ='block';
+
                 setInterval(() => {
                     // Première animation : glisser de la droite
                     pop.style.right = '0'; // glisse de -50px à 0
@@ -846,7 +531,6 @@
                 slides.style.transform = `translateX(-${index * 600}px)`;
             });
         });
-
     </script>
 
     <script>
@@ -939,9 +623,307 @@
                 });
             });
         });
-
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const deletedPost = document.querySelectorAll(".deletedPost");
+            const confirmDeleteModal = document.querySelectorAll('.confirmDeleteModal');
+            const confirmDeleteModalBack = document.querySelectorAll('.confirmDeleteModalBack');
+            const actionMenu = document.querySelectorAll('.actionMenu');
+            const postMenu = document.querySelectorAll('.postMenu');
+
+            deletedPost.forEach(del => {
+                del.addEventListener('click', function(){
+                    actionMenu.forEach(action =>{
+                        action.classList.add('hidden');
+                    })
+
+                    confirmDeleteModal.forEach(confirm =>{
+                        confirm.classList.remove('hidden')
+                        postMenu.forEach(post =>{
+                            post.style.width ='400px';
+                            post.style.width ='all 0.3s'
+                        })
+                    })
+                })
+            });
+
+            confirmDeleteModalBack.forEach(modalBack =>{
+                modalBack.addEventListener('click', function(){
+                    confirmDeleteModal.forEach(confirm =>{
+                        confirm.classList.add('hidden')
+                        postMenu.forEach(post =>{
+                            post.style.width ='200px';
+                            post.style.width ='all 0.3s'
+                        })
+                    })
+
+                    actionMenu.forEach(action =>{
+                        action.classList.remove('hidden');
+                    })
+                })
+            })
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const like = document.querySelectorAll(".like");
+
+            like.forEach(l => {
+                l.addEventListener('click', function(){
+                    l.classList.toggle('active')
+                })
+            })
+        })
+    </script>
+
+    <script>
+        document.querySelectorAll('.like-form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // On récupère l'URL directement depuis le formulaire ciblé
+            let url = form.action;
+
+            // On construit les données du formulaire
+            let formData = new FormData(form);
+
+            // On envoie la requête AJAX (fetch)
+            let response = await fetch(url, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+
+            // La réponse sera du HTML (vue partielle Blade)
+            let html = await response.text();
+
+            // Récupérer l'ID du post (dernière partie de l'URL)
+            let postId = url.split('/').pop();
+
+            // On remplace l'ancien compteur par le nouveau
+            document.getElementById("like-count-" + postId).outerHTML = html;
+        });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.commentLike').forEach(formCommentLike =>{
+                formCommentLike.addEventListener('submit', async function(e){
+                    e.preventDefault();
+
+                    let url = formCommentLike.action;
+
+                    let formData = new FormData(formCommentLike);
+
+                    let response = await fetch(url, {
+                        method:'POST',
+                        body:formData,
+                        headers:{
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    });
+
+                    let html = await response.text();
+
+                    let commentId = url.split('/').pop();
+
+                    document.getElementById("likeComment-" + commentId).outerHTML = html;
+                })
+            })
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const rightBtn = document.querySelector('.RightBtn');
+            const rightSideBar = document.querySelector('.RightSideBar');
+
+            rightBtn.addEventListener('click', function(){
+                rightSideBar.classList.toggle('hidden')
+            });
+
+            document.addEventListener('click', function(e){
+                if (!rightSideBar.classList.contains('hidden') && !rightSideBar.contains(e.target) && !rightBtn.contains(e.target)) {
+                    rightSideBar.classList.add('hidden');
+                }
+            });
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.replyCommentBtn').forEach(replyBtn =>{
+                const commentId = replyBtn.dataset.commentId;
+                const replyCommentForm = document.getElementById('replyCommentForm-' + commentId);
+
+                replyBtn.addEventListener('click', function(){
+                    replyCommentForm.classList.toggle('hidden');
+                })
+            })
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.ReplycommentLikes').forEach(replycommentLikes =>{
+                replycommentLikes.addEventListener('submit', async function(e){
+                    e.preventDefault();
+
+                     let url = replycommentLikes.action;
+
+                    let formData = new FormData(replycommentLikes);
+
+                    let response = await fetch(url, {
+                        method:'POST',
+                        body:formData,
+                        headers:{
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    });
+
+                    let html = await response.text();
+
+                    let replyCommentId = url.split('/').pop();
+
+                    document.getElementById("likeReplyComment-" + replyCommentId).outerHTML = html;
+                })
+            })
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            attachFollowEvents();
+        });
+
+        function attachFollowEvents() {
+            document.querySelectorAll('.followForms').forEach(followForm => {
+                followForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const followFormId = followForm.dataset.userId;
+                    const url = followForm.action;
+                    const formData = new FormData(followForm);
+
+                    let response = await fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        },
+                    });
+
+                    let follower = await response.text();
+                    document.getElementById("followers").innerHTML = follower;
+
+                    // 🔁 Réattache les événements sur les nouveaux formulaires
+                    attachFollowEvents();
+                });
+            });
+        }
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const posts = document.querySelectorAll('.post');
+            console.log('Nombre de posts trouvés :', posts.length);
+
+            // Récupère le token CSRF dans le meta tag (nécessaire pour Laravel)
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const observer = new IntersectionObserver((entries) => {
+                console.log('IntersectionObserver déclenché !'); // 
+
+                entries.forEach(entry => {
+                     console.log('Entry target :', entry.target);
+                    if (entry.isIntersecting) {
+                        const postId = entry.target.dataset.postId;
+
+                        // Lance un timer de 5 secondes
+                        const timer = setTimeout(() => {
+                            fetch(`/vues/${postId}`, { 
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': token,      // ajoute le token
+                                    'Content-Type': 'application/json'
+                                },
+                                credentials: 'same-origin',
+                                body: JSON.stringify({ post_id: postId })
+                            });
+
+                            observer.unobserve(entry.target); // stoppe l’observation après enregistrement
+                        }, 5000);
+
+                        //  Stocke l'identifiant du timer pour pouvoir l'annuler si besoin
+                        entry.target.dataset.timerId = timer;
+
+                    } else {
+                        //  Si le post n'est plus visible avant 5s → on annule le timer
+                        const timerId = entry.target.dataset.timerId;
+                        if (timerId) {
+                            clearTimeout(timerId);
+                            delete entry.target.dataset.timerId;
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.5 // au moins 50 % du post doit être visible
+            });
+
+            posts.forEach(post => observer.observe(post));
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.followFormsPosts').forEach(followFormPost =>{
+                followFormPost.addEventListener('submit', async function(e){
+                    e.preventDefault();
+
+                    let url = followFormPost.action;
+
+                    let formData = new FormData(followFormPost);
+
+                    let response = await fetch(url, {
+                        method:'POST',
+                        body:formData,
+                        headers:{
+                            'X-Requested-With':'XMLHttpRequest',
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        }
+                    });
+                })
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('.DeletefollowPosts').forEach(deletefollowPost =>{
+                deletefollowPost.addEventListener('submit', async function(e){
+                    e.preventDefault();
+
+                    let url = deletefollowPost.action;
+
+                    let response = await fetch(url,{
+                        method:'DELETE',
+                        body:formData,
+                        headers:{
+                            'X-Requested-With':'XMLHttpRequest',
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        }
+                    })
+                })
+            }
+        })
+    </script>
 </body>
 
 </html>

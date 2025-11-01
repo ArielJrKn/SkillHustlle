@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Enums\NotificationType;
+
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Like;
+use App\Models\Notification;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeacherController;
@@ -12,6 +17,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ViewController;
+use App\Http\Controllers\FollowerController;
+use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -42,14 +51,18 @@ Route::get('/auth/google/callback', function () {
 
     Auth::login($user);
 
-    // si l'utilisateur s'est récemment inscrit
+        Notification::create([
+        'type' => NotificationType::SYSTEM,
+        'message' => "Bienvenue sur SkillHustle, la plateforme qui met en valeur vos compétences et votre savoir-faire.
+                        Afin de renforcer votre crédibilité en tant qu’utilisateur agréé, nous vous recommandons de renseigner
+                        vos informations complémentaires pour compléter votre profil. Merci et bonne continuation sur SkillHustle !",
+        'sender_id' => Auth::id(),
+    ]);
+
     if ($user->wasRecentlyCreated) {
         return redirect()->route('roleAfterGoogleConnexion');
     }
 
-    
-
-    // Sinon → utilisateur déjà existant
     return redirect()->route('social.index');
 
 })->name('auth.google.callback');
@@ -62,29 +75,26 @@ Route::get('/auth/google/redirect', function () {
 // Route pour les pages de d'authentification ------------------------------------------------------------------------------------
 
 Route::controller(AuthController::class)->middleware('auth')->group(function(){
-    Route::get('/', 'ShowRegisterForm')->name('registerForm');
-    Route::post('/register', 'register')->name('auth.register');
+    // Route::get('/', 'ShowRegisterForm')->name('registerForm');
     Route::post('/roleAfterGoogleConnexion', 'role')->name('auth.role');
     Route::get('/roleAfterGoogleConnexion', 'roleAfterGoogleConnexion')->name('roleAfterGoogleConnexion');
-    Route::get('/login', 'ShowLoginForm')->name('connexion');
-    Route::post('/login', 'login')->name('auth.login');
+    // Route::get('/loginform', 'ShowLoginForm')->name('connexion');
     Route::post('/logout', 'logout')->name('auth.logout');
     // Route::get('/VerifyEmail', 'verifyEmailForm')->name('auth.verifyEmailForm');
     // Route::get('/VerifyEmail/{token}', 'verify')->name('verify.email');
 });
 
 
-
 // Route pour affichage des pages de la partie sociale-------------------------------------------------------------------------------
 
 Route::controller(SocialController::class)->middleware('auth')->group(function(){
-    Route::get('home', 'index')->name('social.index');
-    Route::get('homeJson', 'indexJson')->name('social.indexJson');
+    Route::get('/home', 'index')->name('social.index');
     Route::get('/certification', 'certification')->name('social.certification');
     Route::get('/cours', 'cours')->name('social.cours');
     Route::get('/jobs', 'jobs')->name('social.jobs');
     Route::get('/membres', 'membres')->name('social.membres');
     Route::get('/profil', 'profil')->name('social.profil');
+    Route::get('/detailsPost{post}', 'detailsPost')->name('social.detailsPost');
     Route::get('/courseDetail', 'courseDetail')->name('social.courseDetail');
 });
 
@@ -182,22 +192,50 @@ Route::controller(MediaController::class)->group(function(){
 });
 
 Route::controller(PostController::class)->group(function(){
+    Route::post('/sharePostContent/{lastPost}', 'share')->name('sharePostContent');
+    Route::post('/sharePost/{post}', 'sharePost')->name('sharePost');
     Route::post('/createPost', 'store')->name('createPost');
     Route::get('/editPost{post}', 'edit')->name('social.editPost');
-    Route::put('/update{post}', 'update')->name('social.updatePost');
-
+    Route::put('/updatePost/{post}', 'update')->name('social.updatePost');
+    Route::delete('/deletePost/{post}', 'destroy')->name('social.destroyPost');
 });
 
 
 Route::controller(CommentController::class)->group(function(){
-    Route::post('/createComment/{id}', 'store')->name('createComment');
+    Route::post('/createComment/{post}', 'store')->name('createComment');
+    Route::post('/replyComment/{post}/{comment}', 'replyComment')->name('replyComment');
+    Route::get('/editComment{comment}', 'edit')->name('editComment');
+    Route::put('/updateComment/{comment}', 'update')->name('social.updateComment');
+    Route::delete('/deleteComment/{comment}', 'destroy')->name('social.destroyComment');
 });
+
+
+Route::controller(LikeController::class)->group(function(){
+    Route::post('/like/{post}', 'storeLastPost')->name('likelastPost');
+    Route::post('/likepost/{idPost}', 'storeposts')->name('likePost');
+    Route::post('/likeComment/{idcomment}', 'storeLastPostComment')->name('likelastPostComment');
+    Route::post('/likeComments/{idComments}', 'storeComment')->name('likeComment');
+    Route::post('/likeReplyComments/{idComment}', 'storeRelyComment')->name('likeReplyComments');
+});
+
+
+Route::middleware('auth')->controller(ViewController::class)->group(function(){
+    Route::post('/vues/{post}', 'store');
+});
+
+Route::middleware('auth')->controller(FollowerController::class)->group(function(){
+    Route::post('/follow/{target}', 'store')->name('follow');
+    Route::post('/followerByPost/{target}', 'followerByPost')->name('followerByPost');
+    Route::delete('/Deletefollower/{target}', 'Deletefollower')->name('Deletefollower');
+});
+
+
 
 
 
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
+    Route::get('/', [RegisteredUserController::class, 'create'])
         ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store'])->name('authRegister');
@@ -219,7 +257,6 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
-
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');

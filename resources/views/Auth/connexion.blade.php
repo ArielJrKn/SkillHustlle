@@ -72,12 +72,12 @@
 
                     <div class="auth_google flex text-gray-100 items-center justify-center">
                         <img src="https://www.google.com/favicon.ico" alt="Google Icon" width="32" height="32">
-                        <a href="">Continuer avec google</a>
+                        <a href="{{route('google.login')}}">Continuer avec google</a>
                     </div>
                     
                     <div class="text-center mt-4">
                         <p class="text-gray-200">
-                            Pas de compte ? <a href="{{route('registerForm')}}" class="text-primary hover:underline">Inscrivez-vous</a>
+                            Pas de compte ? <a href="{{route('register')}}" class="text-primary hover:underline">Inscrivez-vous</a>
                         </p>
                     </div>
                 </form>

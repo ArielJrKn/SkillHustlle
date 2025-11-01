@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
         ]);
 
-        User::factory(20)->create();
-        Post::factory(20)->create();
-        Comment::factory(20)->create();
+        User::factory(2)->create();
+        Post::factory(1)->create();
+        Comment::factory(1)->create();
 
 
     }

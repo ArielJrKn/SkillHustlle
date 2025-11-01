@@ -109,7 +109,7 @@ class AuthController extends Controller
     }
 
      public function ShowLoginForm(){
-        return view('Auth.connexion');
+        return view('Auth.inscription');
     }
 
     public function logout(Request $request):RedirectResponse{
