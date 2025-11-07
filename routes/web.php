@@ -20,6 +20,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProfileController;
 
 // Route pour gérer l'authentification de google------------------------------------------------------------------------------------------------
 Route::get('/auth/google/callback', function () {
@@ -51,17 +53,17 @@ Route::get('/auth/google/callback', function () {
 
     Auth::login($user);
 
-        Notification::create([
-        'type' => NotificationType::SYSTEM,
-        'message' => "Bienvenue sur SkillHustle, la plateforme qui met en valeur vos compétences et votre savoir-faire.
-                        Afin de renforcer votre crédibilité en tant qu’utilisateur agréé, nous vous recommandons de renseigner
-                        vos informations complémentaires pour compléter votre profil. Merci et bonne continuation sur SkillHustle !",
-        'sender_id' => Auth::id(),
-    ]);
-
     if ($user->wasRecentlyCreated) {
+            Notification::create([
+            'type' => NotificationType::SYSTEM,
+            'message' => "Bienvenue sur SkillHustle, la plateforme qui met en valeur vos compétences et votre savoir-faire.
+                            Afin de renforcer votre crédibilité en tant qu’utilisateur agréé, nous vous recommandons de renseigner
+                            vos informations complémentaires pour compléter votre profil. Merci et bonne continuation sur SkillHustle !",
+            'sender_id' => Auth::id(),
+        ]);
         return redirect()->route('roleAfterGoogleConnexion');
     }
+
 
     return redirect()->route('social.index');
 
@@ -227,6 +229,10 @@ Route::middleware('auth')->controller(FollowerController::class)->group(function
     Route::post('/follow/{target}', 'store')->name('follow');
     Route::post('/followerByPost/{target}', 'followerByPost')->name('followerByPost');
     Route::delete('/Deletefollower/{target}', 'Deletefollower')->name('Deletefollower');
+});
+
+Route::middleware('auth')->controller(NotificationController::class)->group(function(){
+    Route::get('/notifications', 'index');
 });
 
 

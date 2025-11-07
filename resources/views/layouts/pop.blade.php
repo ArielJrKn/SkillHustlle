@@ -13,10 +13,15 @@
 </style>
             <div class="flex items-center gap-1 pop z-50 backdrop-filter backdrop-blur-sm bg-primary bg-opacity-20 m-2 p-4">
                 <i class="ri-checkbox-circle-line"></i>
-
+            @if(session('success'))
                 <div class="opacity-0 msgContentLaravel font-semibold text-lg">
                     {{session('success')}}
                 </div>
+            @elseif(session('message_notif'))
+                <div class="opacity-0 msgContentLaravel font-semibold text-lg">
+                    {{session('message_notif')}}
+                </div>
+            @endif
             </div>
 
 

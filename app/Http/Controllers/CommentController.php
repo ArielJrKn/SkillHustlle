@@ -51,7 +51,7 @@ class CommentController extends Controller
             'user_id' => Auth::id(),
         ]);
         if (Auth::id() !== $post->user_id){
-            Notification::create([
+            $notification = Notification::create([
                 'type' => NotificationType::COMMENT,
                 'message' => auth()->user()->name .  " à commenté votre publication.",
                 'sender_id' => $post->user_id,
@@ -73,7 +73,10 @@ class CommentController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Commentaire envoyé avec succès');
+        return redirect()->back()->with([
+            'success' => 'Commentaire envoyé avec succès',
+            'message_notif' => $notification->message,
+        ]);
     }
 
 public function replyComment(Request $request, Post $post, Comment $comment)

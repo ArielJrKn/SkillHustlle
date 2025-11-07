@@ -16,7 +16,7 @@
                         @endif
 
                     @else
-                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
+                        <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
                     @endif
                 @endauth
                 <div class="flex ml-3 flex-col">
@@ -25,78 +25,8 @@
                 </div>
             </div>
 
-                @if(Auth::id() === $lastPost->users->id)
-                    <div class="relative">
-                        <button class="course-menu-btn p-2 text-white hover:bg-opacity-30 rounded-full hover:bg-white transition-all">
-                            <div class="w-5 h-5 flex items-center justify-center">
-                                <i class="ri-more-2-fill"></i>
-                            </div>
-                        </button>
-
-                        <div class="course-menu postMenu hidden absolute right-0 mt-2 rounded-md shadow-lg backdrop-filter backdrop-blur-lg bg-black bg-opacity-20 z-10 dropdown-menu">
-                            <div class="actionMenu py-1">
-                                <a href="{{route('social.editPost', $lastPost)}}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:bg-opacity-30">
-                                    <div class="flex items-center">
-                                        <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                            <i class="ri-edit-line"></i>
-                                        </div>
-                                        <span>Modifier</span>
-                                    </div>
-                                </a>
-                                
-                                <div class="deletedPost cursor-pointer block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 hover:bg-opacity-30">
-                                    <div class="flex items-center">
-                                        <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                            <i class="ri-delete-bin-line"></i>
-                                        </div>
-                                        <span>Supprimer</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="confirmDeleteModal hidden bg-white bg-opacity-10 p-4 rounded-md">
-                                <div class="flex items-center">
-                                   <div class="flex items-center">
-
-                                        <div class="w-10 h-10 confirmDeleteModalBack cursor-pointer rounded-full hover:bg-white-100 bg-opacity-80 flex items-center justify-center text-white-600">
-                                        <i class="ri-arrow-left-line"></i>
-                                        </div>
-
-                                        <div class="w-10 h-10 rounded-full bg-red-100 bg-opacity-80 flex items-center justify-center text-red-600">
-                                        <i class="ri-alert-line"></i>
-                                        </div>
-                                   </div>
-
-                                    <h3 class="text-lg font-semibold ml-3">Suppression</h3>
-                                </div>
-                                <div class="mt-2">
-                                    <p class="text-lg text-gray-900 dark:text-gray-100">
-                                        Confirmer vous la suppression votre post ? <br> Cette action est irréversible
-                                    </p>
-                                </div>
-
-                                <div class="w-full flex justify-end">
-                                    <form method="POST" action="{{route('social.destroyPost', $lastPost)}}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="mt-3 flex justify-end rounded-button border border-red-300 shadow-sm px-4 py-2 text-base font-medium text-red-700 bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm !rounded-button whitespace-nowrap">Confirmer</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @elseif(\App\Models\Follower::where('user_id', Auth::id())->where('target_id', $lastPost->users->id)->exists())
-                    <form class="DeletefollowPosts" action="{{route('Deletefollower', $lastPost->users->id)}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                        <button class="px-3 py-2 bg-primary rounded-full">Ne plus suivre</button>
-                    </form>
-                @else
-                    <form class="followFormsPosts" action="{{route('followerByPost', $lastPost->users->id)}}" method="POST">
-                        <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
-                    </form>
-                @endif
-            
+            <livewire:follow-form-last-post :targetId="$lastPost->users->id"  />
+    
         </div>
 
         <div class="mt-4 bg break-words">
@@ -125,7 +55,7 @@
                                     @endif
 
                                 @else
-                                    <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
+                                    <img class="w-10 h-10 rounded-full object-cover" src="{{$sharePost->users->avatar}}">
                                 @endif
                             @endauth
                             <div class="flex ml-3 flex-col">
@@ -134,72 +64,7 @@
                             </div>
                         </div>
 
-                        @if(Auth::id() === $sharePost->users->id)
-                            <div class="relative">
-
-                                <div class="course-menu postMenu hidden absolute right-0 mt-2 rounded-md shadow-lg backdrop-filter backdrop-blur-lg bg-black bg-opacity-20 z-10 dropdown-menu">
-                                    <div class="actionMenu py-1">
-                                        <a href="{{route('social.editPost', $sharePost)}}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:bg-opacity-30">
-                                            <div class="flex items-center">
-                                                <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                    <i class="ri-edit-line"></i>
-                                                </div>
-                                                <span>Modifier</span>
-                                            </div>
-                                        </a>
-                                        
-                                        <div class="deletedPost cursor-pointer block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 hover:bg-opacity-30">
-                                            <div class="flex items-center">
-                                                <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                                    <i class="ri-delete-bin-line"></i>
-                                                </div>
-                                                <span>Supprimer</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="confirmDeleteModal hidden bg-white bg-opacity-10 p-4 rounded-md">
-                                        <div class="flex items-center">
-                                           <div class="flex items-center">
-
-                                                <div class="w-10 h-10 confirmDeleteModalBack cursor-pointer rounded-full hover:bg-white-100 bg-opacity-80 flex items-center justify-center text-white-600">
-                                                <i class="ri-arrow-left-line"></i>
-                                                </div>
-
-                                                <div class="w-10 h-10 rounded-full bg-red-100 bg-opacity-80 flex items-center justify-center text-red-600">
-                                                <i class="ri-alert-line"></i>
-                                                </div>
-                                           </div>
-
-                                            <h3 class="text-lg font-semibold ml-3">Suppression</h3>
-                                        </div>
-                                        <div class="mt-2">
-                                            <p class="text-lg text-gray-900 dark:text-gray-100">
-                                                Confirmer vous la suppression votre post ? <br> Cette action est irréversible
-                                            </p>
-                                        </div>
-
-                                        <div class="w-full flex justify-end">
-                                            <form method="POST" action="{{route('social.destroyPost', $sharePost)}}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="mt-3 flex justify-end rounded-button border border-red-300 shadow-sm px-4 py-2 text-base font-medium text-red-700 bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm !rounded-button whitespace-nowrap">Confirmer</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    @elseif(\App\Models\Follower::where('user_id', Auth::id())->where('target_id', $sharePost->users->id)->exists())
-                        <form class="DeletefollowPosts" action="{{route('Deletefollower', $sharePost->users->id)}}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                            <button class="px-3 py-2 bg-primary rounded-full">Ne plus suivre</button>
-                        </form>
-                    @else
-                        <form class="followFormsPosts" action="{{route('followerByPost', $sharePost->users->id)}}" method="POST">
-                            <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
-                        </form>
-                    @endif
+                        <livewire:follow-form-share-post :targetId="$sharePost->users->id" :postId="$lastPost->post_id" />
 
                     </div>
 
@@ -338,20 +203,20 @@
                                         <div class="flex gap-2 items-center">
                                             <h3 class="text-sm font-bold">{{$comment->users->name}}</h3>
                                                 <span class="text-xs text-gray-400">{{$comment->updated_at->diffForHumans()}}</span>
-                            @if(Auth::id() !== $comment->users->id)
-                                @if(\App\Models\Follower::where('user_id', Auth::id())->where('target_id', $comment->users->id)->exists())
-                                    <form class="DeletefollowPosts" action="{{route('Deletefollower', $comment->users->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        <button type="submit" class="p-1 bg-primary rounded-sm"><i class="ri-lg ri-user-unfollow-line"></i></button>
-                                    </form>
-                                @else
-                                    <form class="followFormsPosts" action="{{route('followerByPost', $comment->users->id)}}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="p-1 bg-primary rounded-sm"><i class="ri-lg ri-user-follow-line"></i></button>
-                                    </form>
-                                @endif
-                            @endif
+                                                    @if(Auth::id() !== $comment->users->id)
+                                                        @if(\App\Models\Follower::where('user_id', Auth::id())->where('target_id', $comment->users->id)->exists())
+                                                            <form class="DeletefollowPosts" action="{{route('Deletefollower', $comment->users->id)}}" method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                <button type="submit" class="p-1 bg-primary rounded-sm"><i class="ri-lg ri-user-unfollow-line"></i></button>
+                                                            </form>
+                                                        @else
+                                                            <form class="followFormsPosts" action="{{route('followerByPost', $comment->users->id)}}" method="POST">
+                                                                @csrf
+                                                                <button type="submit" class="p-1 bg-primary rounded-sm"><i class="ri-lg ri-user-follow-line"></i></button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
                                         </div>
                                         <p class="text-sm break-words">{{$comment->content}}</p>
 
@@ -399,20 +264,13 @@
                                         <div id="replyCommentForm-{{ $comment->id }}" class="flex mt-2 gap-2 items-center justify-center hidden">
                                             @auth
                                                 {{-- Avatar si ce n’est pas moi --}}
-                                                @if($lastPost->users->id !== Auth::id())
-                                                    @if($lastPost->users->avatar !== null)
-                                                        @if(\Illuminate\Support\Str::contains($lastPost->users->avatar, 'https://lh3.googleusercontent.com'))
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
-                                                        @else
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{asset('storage/'. avatar)}}">
-                                                        @endif
-                                                    @else
-                                                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
-                                                    @endif
-
-                                                @else
-                                                    <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
-                                                @endif
+                                            @if(Auth::user()->avatar === null)
+                                                <img src="storage/media/avatar.jpg" alt="Your Avatar"
+                                            class="w-10 h-10 rounded-full object-cover">
+                                            @else
+                                                <img src="{{Auth::user()->avatar}}" alt="Your Avatar"
+                                                class="w-10 h-10 rounded-full object-cover">
+                                            @endif
                                             @endauth
                                             <div class="flex-1">
                                                <form method="POST" action="{{ route('replyComment', ['post' => $lastPost->id, 'comment' => $comment->id]) }}"
@@ -426,7 +284,7 @@
                                                     <div class="w-full flex items-center justify-between">
                                                         <div class=" flex items-center">
                                                             <label for="phtInput-{{ $comment->id }}" class="p-1">
-                                                                <i class="ri-edit-line ri-lg"></i>
+                                                                <i class="ri-image-line ri-lg"></i>
                                                             </label>
                                                             <input type="file" name="path[]" accept="image/*" multiple
                                                                 id="phtInput-{{ $comment->id }}" hidden>
@@ -494,7 +352,7 @@
                                                 <form method="POST" action="{{route('social.destroyComment', $comment)}}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="cursor-pointer bg-red-900 bg-opacity-40 backdrop-filter backdrop-blur-lg px-2 py-1">
+                                                    <button class="cursor-pointer bg-red-900 bg-opacity-40 backdrop-filter rounded-full backdrop-blur-lg px-2 py-1">
                                                         <i class="like ri-delete-bin-line text-red-400"></i>
                                                     </button>
                                                 </form>
@@ -663,7 +521,7 @@
                         @endif
 
                     @else
-                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
+                        <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
                     @endif
                 @endauth
                 <div class="flex ml-3 flex-col">
@@ -672,75 +530,8 @@
                 </div>
             </div>
 
-            @if(Auth::id() === $lastPost->users->id)
-                <div class="relative">
-                    <button class="course-menu-btn p-2 text-white hover:bg-opacity-30 rounded-full hover:bg-white transition-all">
-                        <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-more-2-fill"></i>
-                        </div>
-                    </button>
+            <livewire:follow-form-last-post :targetId="$lastPost->users->id"  />
 
-                    <div class="course-menu postMenu hidden absolute right-0 mt-2 rounded-md shadow-lg backdrop-filter backdrop-blur-lg bg-black bg-opacity-20 z-10 dropdown-menu">
-                        <div class="actionMenu py-1">
-                            <a href="{{route('social.editPost', $lastPost)}}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:bg-opacity-30">
-                                <div class="flex items-center">
-                                    <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                        <i class="ri-edit-line"></i>
-                                    </div>
-                                    <span>Modifier</span>
-                                </div>
-                            </a>
-                            
-                            <div class="deletedPost cursor-pointer block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 hover:bg-opacity-30">
-                                <div class="flex items-center">
-                                    <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </div>
-                                    <span>Supprimer</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="confirmDeleteModal hidden bg-white bg-opacity-10 p-4 rounded-md">
-                            <div class="flex items-center">
-                               <div class="flex items-center">
-
-                                    <div class="w-10 h-10 confirmDeleteModalBack cursor-pointer rounded-full hover:bg-white-100 bg-opacity-80 flex items-center justify-center text-white-600">
-                                    <i class="ri-arrow-left-line"></i>
-                                    </div>
-
-                                    <div class="w-10 h-10 rounded-full bg-red-100 bg-opacity-80 flex items-center justify-center text-red-600">
-                                    <i class="ri-alert-line"></i>
-                                    </div>
-                               </div>
-
-                                <h3 class="text-lg font-semibold ml-3">Suppression</h3>
-                            </div>
-                            <div class="mt-2">
-                                <p class="text-lg text-gray-900 dark:text-gray-100">
-                                    Confirmer vous la suppression votre post ? <br> Cette action est irréversible
-                                </p>
-                            </div>
-
-                            <div class="w-full flex justify-end">
-                                <form method="POST" action="{{route('social.destroyPost', $lastPost)}}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="mt-3 flex justify-end rounded-button border border-red-300 shadow-sm px-4 py-2 text-base font-medium text-red-700 bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm !rounded-button whitespace-nowrap">Confirmer</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @elseif(\App\Models\Follower::where('user_id', Auth::id())->where('target_id', $lastPost->users->id)->exists())
-                <form>
-                    <button class="px-3 py-2 bg-primary rounded-full">Ne plus suivre</button>
-                </form>
-            @else
-                <form class="followFormsPosts" action="{{route('followerByPost', $lastPost->users->id)}}" method="POST">
-                    <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
-                </form>
-            @endif
         </div>
 
         <div class="mt-4 bg break-words">
@@ -900,19 +691,12 @@
                                         <div id="replyCommentForm-{{ $comment->id }}" class="flex mt-2 gap-2 items-center justify-center hidden">
                                             @auth
                                                 {{-- Avatar si ce n’est pas moi --}}
-                                                @if($lastPost->users->id !== Auth::id())
-                                                    @if($lastPost->users->avatar !== null)
-                                                        @if(\Illuminate\Support\Str::contains($lastPost->users->avatar, 'https://lh3.googleusercontent.com'))
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
-                                                        @else
-                                                            <img class="w-10 h-10 rounded-full object-cover" src="{{asset('storage/'. avatar)}}">
-                                                        @endif
-                                                    @else
-                                                        <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
-                                                    @endif
-
+                                                @if(Auth::user()->avatar === null)
+                                                    <img src="storage/media/avatar.jpg" alt="Your Avatar"
+                                                class="w-10 h-10 rounded-full object-cover">
                                                 @else
-                                                    <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
+                                                    <img src="{{Auth::user()->avatar}}" alt="Your Avatar"
+                                                    class="w-10 h-10 rounded-full object-cover">
                                                 @endif
                                             @endauth
                                             <div class="flex-1">
@@ -927,7 +711,7 @@
                                                     <div class="w-full flex items-center justify-between">
                                                         <div class=" flex items-center">
                                                             <label for="phtInput-{{ $comment->id }}" class="p-1">
-                                                                <i class="ri-edit-line ri-lg"></i>
+                                                                <i class="ri-image-line ri-lg"></i>
                                                             </label>
                                                             <input type="file" name="path[]" accept="image/*" multiple
                                                                 id="phtInput-{{ $comment->id }}" hidden>
@@ -995,7 +779,7 @@
                                             <form method="POST" action="{{route('social.destroyComment', $comment)}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="cursor-pointer rounded-full bg-red-900 bg-opacity-40 backdrop-filter backdrop-blur-lg px-2 py-1">
+                                                <button class="cursor-pointer rounded-full bg-red-900 bg-opacity-40 rounded-full backdrop-filter backdrop-blur-lg px-2 py-1">
                                                     <i class="like ri-delete-bin-line text-red-400"></i>
                                                 </button>
                                             </form>
@@ -1103,7 +887,7 @@
                         @endforeach
                         @else
                         <div class="w-full h-full flex items-center justify-center">
-                            <h1>Aucun commentaire sous ce postes...Soyez le premier à en faire</h1>
+                            <h1>Aucun commentaire sous ce poste...Soyez le premier à en faire</h1>
                         </div>
                     @endif
                 @endauth

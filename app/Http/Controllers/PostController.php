@@ -77,7 +77,7 @@ class PostController extends Controller
             ]);
 
             foreach($receivers as $receiver){
-                Notification::create([
+                $notification = Notification::create([
                     'type' => NotificationType::POST,
                     'message' => auth()->user()->name .  " à fait une nouvelle publication.",
                     'sender_id' => $receiver->user_id,
@@ -87,7 +87,12 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('social.index')->with('success', 'Post créé avec succès');
+        return redirect()->route('social.index')->with([
+            'success' => 'Post créer avec succès',
+            // 'message_notif' => $notification->message,
+        ]);
+
+
     }
 
 
@@ -184,7 +189,7 @@ class PostController extends Controller
             }else{
                 $message = auth()->user()->name .  " à partagé une publication de {$post->users->name}";
             }
-            Notification::create([
+            $notification = Notification::create([
                 'type' => NotificationType::POST,
                 'message' => $message,
                 'sender_id' => $receiver->target_id,
@@ -193,7 +198,10 @@ class PostController extends Controller
             ]);
         }
 
-    return redirect()->route('social.index')->with('success', 'Post partagé avec succès');    
+    return redirect()->route('social.index')->with([
+            'success' => 'Post partagé avec succès',
+            // 'message_notif' => $notification->message,
+        ]);;    
     }
 
 }

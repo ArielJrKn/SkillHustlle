@@ -15,7 +15,7 @@
                                                     @endif
 
                                                 @else
-                                                    <img class="w-10 h-10 rounded-full object-cover" src="storage/media/avatar.jpg">
+                                                    <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
                                                 @endif
                                             @endauth
                                             <div class="flex ml-3 flex-col">

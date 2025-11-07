@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Enums\NotificationType;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -12,8 +13,8 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $notifications = Notification::where('receiver_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('layouts.Notification', compact('notifications'));
+        $notifications = Notification::where('sender_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('layouts.notifications', compact('notifications'));
     }
 
     /**

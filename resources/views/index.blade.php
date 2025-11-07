@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    @livewireStyles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -169,8 +170,15 @@
             </aside>
 
             <!-- Right Sidebar - Notifications -->
-            <aside class="sideBarNotification hidden w-90 backdrop-filter backdrop-blur-2xl p-6 dark:border-gray-800">
-                @include('layouts.notifications')
+            <aside class="sideBarNotification hidden lg:w-96 sm:w-full backdrop-filter backdrop-blur-2xl p-6 dark:border-gray-800">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    <i class="ri-close"></i>
+                    Recent Notifications
+                </h2>
+                    <livewire:notifications-list />
+                <button
+                    class="mt-4 text-primary text-sm font-medium w-full py-2 border border-primary rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap">Marquer comme lu
+                </button>                
             </aside>
 
             <!-- Right Sidebar - message -->
@@ -178,21 +186,20 @@
                 class="absolute hidden top-0 bottom-0 w-90 right-0 overflow-hidden z-50 sideBarMessage backdrop-filter backdrop-blur-2xl dark:border-gray-800">
                 @include('layouts.msg')
             </aside>
-
         </div>
     </div>
 
     <div id="shareModal"
         class="absolute hidden w-full top-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-2xl"
         style="height: 100%;">
-        <div id="shareModalContent" class="lg:w-2/5 bg-white bg-opacity-10 rounded-md">
+        <div id="shareModalContent" class="lg:w-2/5 bg-primary bg-opacity-10 rounded-md">
             <div class="flex items-center p-3">
                 <div class="flex w-full items-center justify-start">
                     <div class="w-10 h-10 rounded-full bg-blue-100 bg-opacity-80 flex items-center justify-center text-blue-600">
                         <i class="ri-share-line"></i>
                     </div>
 
-                    <h3 class="text-lg font-semibold ml-3">Partager cette publication</h3>
+                    <h3 class="text-lg font-semibold ml-3">Partager</h3>
                 </div>
 
                 <div class="shareModalClose cursor-pointer w-full flex justify-end p-3">
@@ -401,8 +408,9 @@
             const pop = document.querySelector('.pop');
             const msgContentLaravel = document.querySelector('.msgContentLaravel');
             pop.style.display ='none';
-            @if (session('success')) {
-            pop.style.display ='block';
+            console.log('hbdrgfvedhr');
+            @if (session('success') || session('message_notif')) {
+                pop.style.display ='block';
 
                 setInterval(() => {
                     // Première animation : glisser de la droite
@@ -830,7 +838,6 @@
         }
     </script>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const posts = document.querySelectorAll('.post');
@@ -881,49 +888,98 @@
         });
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            document.querySelectorAll('.followFormsPosts').forEach(followFormPost =>{
-                followFormPost.addEventListener('submit', async function(e){
-                    e.preventDefault();
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-                    let url = followFormPost.action;
+    // 🔹 Gestion du bouton "Suivre"
+    document.querySelectorAll('.followFormsPosts').forEach(followFormPost => {
+        followFormPost.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-                    let formData = new FormData(followFormPost);
+            const url = followFormPost.action;
+            const formData = new FormData(followFormPost);
 
-                    let response = await fetch(url, {
-                        method:'POST',
-                        body:formData,
-                        headers:{
-                            'X-Requested-With':'XMLHttpRequest',
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        }
-                    });
-                })
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                }
             });
+
+            // if (response.ok) {
+            //     // 🔄 Optionnel : changer le bouton immédiatement sans recharger
+            //     followFormPost.innerHTML = `
+            //         <button type="submit" class="px-3 py-2 bg-gray-400 rounded-full">Suivi</button>
+            //     `;
+            // } else {
+            //     console.error('Erreur lors du suivi');
+            // }
         });
-    </script>
+    });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            document.querySelectorAll('.DeletefollowPosts').forEach(deletefollowPost =>{
-                deletefollowPost.addEventListener('submit', async function(e){
-                    e.preventDefault();
 
-                    let url = deletefollowPost.action;
+    // 🔹 Gestion du bouton "Ne plus suivre"
+    document.querySelectorAll('.DeletefollowPosts').forEach(deletefollowPost => {
+        deletefollowPost.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-                    let response = await fetch(url,{
-                        method:'DELETE',
-                        body:formData,
-                        headers:{
-                            'X-Requested-With':'XMLHttpRequest',
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        }
-                    })
-                })
+            const url = deletefollowPost.action;
+            const formData = new FormData(deletefollowPost); // ✅ il manquait ça !
+
+            const response = await fetch(url, {
+                method: 'POST', // ⚠️ on reste en POST mais on ajoute _method=DELETE
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                }
+            });
+
+            // if (response.ok) {
+            //     // 🔄 Optionnel : changer le bouton immédiatement
+            //     deletefollowPost.innerHTML = `
+            //         <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
+            //     `;
+            // } else {
+            //     console.error('Erreur lors de la suppression du suivi');
+            // }
+        });
+    });
+});
+</script>
+
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        async function loadNotifications() {
+            try {
+                let response = await fetch('/notifications', {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    let html = await response.text();
+                    document.getElementById('notificationsContent').innerHTML = html;
+                }
+            } catch (error) {
+                console.error(error);
             }
-        })
-    </script>
+        }
+
+        // Charge une première fois
+        loadNotifications();
+
+        // Recharge toutes les 10 secondes (modifiable)
+        setInterval(loadNotifications, 3000);
+    });
+</script> -->
+
+@livewireScripts
 </body>
 
 </html>
