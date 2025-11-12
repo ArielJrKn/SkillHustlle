@@ -89,7 +89,7 @@ class PostController extends Controller
 
         return redirect()->route('social.index')->with([
             'success' => 'Post créer avec succès',
-            // 'message_notif' => $notification->message,
+            // 'message_notif' => auth()->user()->name .  " à fait une nouvelle publication.",
         ]);
 
 

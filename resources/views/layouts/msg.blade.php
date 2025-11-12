@@ -1,6 +1,28 @@
-<!-- Right Sidebar - message -->
+<style>
+    .sideBarMessage{
+        width: 30%;
+    }
+    @media screen and (max-width: 767px) and (min-width: 480px) {
+    .sideBarMessage{
+        width: auto;
+    }
+}
 
-                <!-- section 1 - list des conversations -->
+@media screen and (max-width: 1023px) and (min-width: 768px){
+    .sideBarMessage{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .sideBarMessage{
+        width: 100%;
+    }
+}
+</style>
+
+<div>
+        <!-- section 1 - list des conversations -->
                 <div class="section1  backdrop-filter backdrop-blur-2xl h-full top-0 relative overscroll-x-none">
                     <div
                         class="header bg-opacity-50 backdrop-filter backdrop-blur-2xl z-50 p-4 w-full h-28 top-0 flex align-center justify-around flex-col">
@@ -32,10 +54,10 @@
 
                     <div class="pt-0 px-2 w-full overflow-y-auto" style="height: 84%;">
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -52,10 +74,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -72,10 +94,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -92,10 +114,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -112,10 +134,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -132,10 +154,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -152,10 +174,10 @@
                         </div>
 
                         <div
-                            class="conversation bg-[#6366F1] cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
+                            class="conversation bg-primary cursor-pointer hover:bg-opacity-50 transition bg-opacity-10 mb-2 p-2 rounded-md flex align-center">
                             <div class="relative flex-shrink-0">
-                                <img class="h-18 w-16 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                <img class="h-16 w-16 rounded-full object-cover"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -181,13 +203,13 @@
                             <i class="ri-arrow-left-line cursor-pointer" id="backListConversation"></i>
                             <div class="relative flex-shrink-0">
                                 <img class="h-10 w-10 rounded-full object-cover"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20female%20student%20with%20blonde%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=4&orientation=squarish"
+                                    src="storage/media/chat.jpg"
                                     alt="Camille Dubois">
                                 <div
                                     class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
                                 </div>
                             </div>
-                            <div>Camille Dubois</div>
+                            <div>Camille</div>
                         </div>
 
                         <div class="cursor-pointer flex" style="align-items: center;">
@@ -217,7 +239,7 @@
                         <!-- receive msg -->
                         <div class="text-sm">
                             <div
-                                class="bg-[#6366F1] bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -231,7 +253,7 @@
                         <!-- sent msg -->
                         <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                             <div
-                                class="bg-[#6366F1] bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -250,7 +272,7 @@
                         <!-- sent msg -->
                         <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                             <div
-                                class="bg-[#6366F1] bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -269,7 +291,7 @@
                         <!-- receive msg -->
                         <div class="text-sm">
                             <div
-                                class="bg-[#6366F1] bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p class="text-sm mb-2">Je vous envoie une capture d'écran de mon travail. Voici où je
                                     bloque :</p>
                                 <div class="bg-gray-200 rounded-md p-2 flex items-center">
@@ -290,7 +312,7 @@
                         <!-- sent msg -->
                         <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                             <div
-                                class="bg-[#6366F1] bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p>Lorem </p>
                             </div>
                             <div class="flex">
@@ -304,11 +326,11 @@
                         <!-- receive msg -->
                         <div class="text-sm">
                             <div
-                                class="bg-[#6366F1] bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                                class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
                                 <p class="text-sm mb-2">Je vous envoie une capture d'écran de mon travail. Voici où je
                                     bloque :</p>
                                 <img class=" rounded-md mr-3"
-                                    src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                    src="storage/media/chat.jpg"
                                     alt="Sophie Moreau">
 
                             </div>
@@ -318,12 +340,12 @@
 
                     <div class="px-2 py-2 backdrop-filter backdrop-blur-2xl w-full fixed bottom-0" style="height:auto;">
                         <div class="flex items-end">
-                            <label type="button" for="mediaUpload"
+                            <label type="button" for="storage/mediaUpload"
                                 class=" p-2 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-100 mr-2">
                                 <div class="w-6 h-6 flex items-center justify-center">
                                     <i class="ri-attachment-2"></i>
                                 </div>
-                                <input type="file" name="" class="hidden" id="mediaUpload">
+                                <input type="file" name="" class="hidden" id="storage/mediaUpload">
                             </label>
                             <div
                                 class="flex-1 border border-gray-300 backdrop-filter backdrop-blur-2xl rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
@@ -371,7 +393,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -392,7 +414,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -413,7 +435,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -434,7 +456,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -455,7 +477,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -476,7 +498,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -497,7 +519,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -518,7 +540,7 @@
                             <div class="ml-2 flex align-center" style="align-items: center;">
                                 <div class="relative flex-shrink-0">
                                     <img class="h-10 w-10 rounded-full object-cover"
-                                        src="https://readdy.ai/api/search-image?query=portrait%20of%20a%20young%20female%20student%20with%20brown%20hair%2C%20natural%20lighting%2C%20professional%20headshot&width=100&height=100&seq=2&orientation=squarish"
+                                        src="storage/media/chat.jpg"
                                         alt="Sophie Moreau">
                                     <div
                                         class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -534,3 +556,4 @@
                         </div>
                     </form>
                 </div>
+</div>

@@ -153,7 +153,7 @@
                     @csrf
                     <button type="submit" class="">
                         @auth
-                            @if($lastPost->likes->contains('user_id', Auth::id()))
+                            @if($lastPost->likes->where('type', 'post')->contains('user_id', Auth::id()))
                                 <i class="like active ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
                             @else
                                  <i class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
@@ -580,7 +580,7 @@
                     @csrf
                     <button type="submit" class="">
                         @auth
-                            @if($lastPost->likes->contains('user_id', Auth::id()))
+                            @if($lastPost->likes->where('type', 'post')->contains('user_id', Auth::id()))
                                 <i class="like active ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
                             @else
                                  <i class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>

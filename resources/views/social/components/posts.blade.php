@@ -17,7 +17,7 @@
                             @endif
 
                         @else
-                            <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
+                            <img class="w-10 h-10 rounded-full object-cover" src="{{$post->users->avatar}}">
                         @endif
                     @endauth
                     <div class="flex ml-3 flex-col">
@@ -154,7 +154,7 @@
                         @csrf
                         <button type="submit" class="">
                             @auth
-                                @if($post->likes->contains('user_id', Auth::id()))
+                                @if($post->likes->where('type', 'post')->contains('user_id', Auth::id()))
                             <i class="like active ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
                                 @else
                                      <i class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
@@ -518,7 +518,7 @@
                             @endif
 
                         @else
-                            <img class="w-10 h-10 rounded-full object-cover" src="{{$lastPost->users->avatar}}">
+                            <img class="w-10 h-10 rounded-full object-cover" src="{{$post->users->avatar}}">
                         @endif
                     @endauth
                     <div class="flex ml-3 flex-col">
@@ -527,7 +527,7 @@
                     </div>
                 </div>
 
-                        <livewire:follow-form-posts :targetId="$post->users->id" :postId="$post->id" />
+                <livewire:follow-form-posts :targetId="$post->users->id" :postId="$post->id" />
 
             </div>
 
@@ -578,7 +578,7 @@
                         @csrf
                         <button type="submit" class="">
                             @auth
-                                @if($post->likes->contains('user_id', Auth::id()))
+                                @if($post->likes->where('type', 'post')->contains('user_id', Auth::id()))
                             <i class="like active ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>
                                 @else
                                      <i class="like ri-heart-line bg-primary bg-opacity-20 px-4 py-2 rounded-md"></i>

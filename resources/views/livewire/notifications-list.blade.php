@@ -7,7 +7,7 @@
     @else
         @foreach($notifications as $notification)
             @if($notification->type === 'followers')
-                <div class="flex flex-col transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class="flex flex-col transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div class="flex">
                         <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                             <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -63,12 +63,13 @@
                         </div>
                     </div>
                     <p class="pl-2 pt-1 text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
-
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @elseif($notification->type === 'post')
-
-                    <div class="cursor-pointer transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
-                        <a href="{{route('social.detailsPost', $notification->post_id)}}" class="flex">
+                <div wire:click="markAsRead({{ $notification->id }})" class="cursor-pointer transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                    <a href="{{route('social.detailsPost', $notification->post_id)}}" class="flex">
                         <div
                             class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                             <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -85,10 +86,12 @@
                         </div>
                     </a>                      
 
-                    </div>
+                @if($notification->is_read === 0)
+                    <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                @endif
+                </div>
             @elseif($notification->type === 'comment')
-                <div
-                    class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class=" transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div
                         class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                         <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -103,14 +106,16 @@
                         <p class="text-gray-600 dark:text-gray-300 text-xs mb-1">{{$notification->message}}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                     </div>
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @elseif($notification->type === 'replyComment')
-                <div
-                    class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class=" transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div
                         class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                         <div class="w-5 h-5 flex items-center justify-center text-primary">
-                            <i class="ri-heart-line"></i>
+                            <i class="ri-chat-3-line"></i>
                         </div>
                     </div>
                     <div class="flex-1">
@@ -121,10 +126,12 @@
                         <p class="text-gray-600 dark:text-gray-300 text-xs mb-1">{{$notification->message}}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                     </div>
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @elseif($notification->type === 'likePost')
-                <div
-                    class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class=" transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div
                         class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                         <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -139,10 +146,12 @@
                         <p class="text-gray-600 dark:text-gray-300 text-xs mb-1">{{$notification->message}}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                     </div>
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @elseif($notification->type === 'likeComment')
-                <div
-                    class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class=" transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div
                         class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                         <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -157,10 +166,12 @@
                         <p class="text-gray-600 dark:text-gray-300 text-xs mb-1">{{$notification->message}}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                     </div>
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @elseif($notification->type === 'system')
-                <div
-                    class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                <div wire:click="markAsRead({{ $notification->id }})" class=" transition relative dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                     <div
                         class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                         <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -175,8 +186,13 @@
                         <p class="text-gray-600 dark:text-gray-300 text-xs mb-1">{{$notification->message}}</p>
                         <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                     </div>
+                    @if($notification->is_read === 0)
+                        <span class="absolute top-0 right-0 h-3 w-3 bg-red-700 rounded-full"></span>
+                    @endif
                 </div>
             @endif
         @endforeach
     @endif
+
+    <button wire:click="markAllAsRead({{$notification->id}})" class="mt-4 text-primary text-sm font-medium w-full py-2 border border-primary rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap">Marquer tous comme lu</button>  
 </div>

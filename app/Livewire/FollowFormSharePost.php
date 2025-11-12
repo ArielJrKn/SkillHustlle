@@ -54,6 +54,8 @@ class FollowFormSharePost extends Component
         Follower::where('user_id', Auth::id())
                 ->where('target_id', $this->targetId)
                 ->delete();
+                Notification::where('sender_id', $this->targetId)->where('type', 'followers')->delete();
+
 
         $this->isFollowing = false;
     }

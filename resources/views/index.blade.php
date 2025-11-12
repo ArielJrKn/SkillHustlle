@@ -170,24 +170,32 @@
             </aside>
 
             <!-- Right Sidebar - Notifications -->
-            <aside class="sideBarNotification hidden lg:w-96 sm:w-full backdrop-filter backdrop-blur-2xl p-6 dark:border-gray-800">
+            <aside class="sideBarNotification hidden lg:w-96 sm:w-full backdrop-filter backdrop-blur-md p-6 dark:border-gray-800">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                     <i class="ri-close"></i>
                     Recent Notifications
                 </h2>
                     <livewire:notifications-list />
-                <button
-                    class="mt-4 text-primary text-sm font-medium w-full py-2 border border-primary rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap">Marquer comme lu
-                </button>                
+               
             </aside>
 
+
+
             <!-- Right Sidebar - message -->
-            <aside
-                class="absolute hidden top-0 bottom-0 w-90 right-0 overflow-hidden z-50 sideBarMessage backdrop-filter backdrop-blur-2xl dark:border-gray-800">
+
+
+            <aside class="absolute hidden top-0 bottom-0 right-0 overflow-hidden z-50 sideBarMessage backdrop-filter backdrop-blur-2xl dark:border-gray-800">
                 @include('layouts.msg')
             </aside>
+
+            
         </div>
     </div>
+
+    <div class="searchModalPhone absolute md:hidden lg:hidden xs:hidden hidden w-full top-0 z-50 flex justify-center backdrop-filter backdrop-blur-md"
+        style="height: 100%;">
+            <livewire:search-global-phone-mode />
+    </div> 
 
     <div id="shareModal"
         class="absolute hidden w-full top-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-2xl"
@@ -315,6 +323,23 @@
     <script src="{{asset('storage/js_style/index.js')}}"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const searchBtn = document.querySelector('.searchBtn');
+            const searchModalPhone = document.querySelector('.searchModalPhone');
+            const searchBtnBack = document.querySelector('.searchBtnBack');
+
+            searchBtn.addEventListener('click', function(){
+                searchModalPhone.classList.remove('hidden')
+            });
+
+            searchBtnBack.addEventListener('click', function(){
+                if (!searchModalPhone.classList.contains('hidden')) {
+                    searchModalPhone.classList.add('hidden')
+                }
+            })
+        })
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const shareModal = document.getElementById('shareModal');
             const shareLikePost = document.querySelector('.shareLikePost');
@@ -410,7 +435,7 @@
             pop.style.display ='none';
             console.log('hbdrgfvedhr');
             @if (session('success') || session('message_notif')) {
-                pop.style.display ='block';
+                pop.style.display ='flex';
 
                 setInterval(() => {
                     // Première animation : glisser de la droite
@@ -889,65 +914,65 @@
     </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    // 🔹 Gestion du bouton "Suivre"
-    document.querySelectorAll('.followFormsPosts').forEach(followFormPost => {
-        followFormPost.addEventListener('submit', async function (e) {
-            e.preventDefault();
+        // 🔹 Gestion du bouton "Suivre"
+        document.querySelectorAll('.followFormsPosts').forEach(followFormPost => {
+            followFormPost.addEventListener('submit', async function (e) {
+                e.preventDefault();
 
-            const url = followFormPost.action;
-            const formData = new FormData(followFormPost);
+                const url = followFormPost.action;
+                const formData = new FormData(followFormPost);
 
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                }
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    }
+                });
+
+                // if (response.ok) {
+                //     // 🔄 Optionnel : changer le bouton immédiatement sans recharger
+                //     followFormPost.innerHTML = `
+                //         <button type="submit" class="px-3 py-2 bg-gray-400 rounded-full">Suivi</button>
+                //     `;
+                // } else {
+                //     console.error('Erreur lors du suivi');
+                // }
             });
+        });
 
-            // if (response.ok) {
-            //     // 🔄 Optionnel : changer le bouton immédiatement sans recharger
-            //     followFormPost.innerHTML = `
-            //         <button type="submit" class="px-3 py-2 bg-gray-400 rounded-full">Suivi</button>
-            //     `;
-            // } else {
-            //     console.error('Erreur lors du suivi');
-            // }
+
+        // 🔹 Gestion du bouton "Ne plus suivre"
+        document.querySelectorAll('.DeletefollowPosts').forEach(deletefollowPost => {
+            deletefollowPost.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const url = deletefollowPost.action;
+                const formData = new FormData(deletefollowPost); // ✅ il manquait ça !
+
+                const response = await fetch(url, {
+                    method: 'POST', // ⚠️ on reste en POST mais on ajoute _method=DELETE
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    }
+                });
+
+                // if (response.ok) {
+                //     // 🔄 Optionnel : changer le bouton immédiatement
+                //     deletefollowPost.innerHTML = `
+                //         <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
+                //     `;
+                // } else {
+                //     console.error('Erreur lors de la suppression du suivi');
+                // }
+            });
         });
     });
-
-
-    // 🔹 Gestion du bouton "Ne plus suivre"
-    document.querySelectorAll('.DeletefollowPosts').forEach(deletefollowPost => {
-        deletefollowPost.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const url = deletefollowPost.action;
-            const formData = new FormData(deletefollowPost); // ✅ il manquait ça !
-
-            const response = await fetch(url, {
-                method: 'POST', // ⚠️ on reste en POST mais on ajoute _method=DELETE
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                }
-            });
-
-            // if (response.ok) {
-            //     // 🔄 Optionnel : changer le bouton immédiatement
-            //     deletefollowPost.innerHTML = `
-            //         <button type="submit" class="px-3 py-2 bg-primary rounded-full">Suivre</button>
-            //     `;
-            // } else {
-            //     console.error('Erreur lors de la suppression du suivi');
-            // }
-        });
-    });
-});
 </script>
 
 

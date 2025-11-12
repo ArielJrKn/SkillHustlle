@@ -5,7 +5,7 @@
     @foreach($notifications as $notification)
         @if($notification->type === 'followers')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -23,7 +23,7 @@
             </div>
         @elseif($notification->type === 'post')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -41,7 +41,7 @@
             </div>                      
         @elseif($notification->type === 'comment')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -59,7 +59,7 @@
             </div>
         @elseif($notification->type === 'replyComment')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -75,10 +75,9 @@
                     <p class="text-gray-500 dark:text-gray-400 text-xs">{{$notification->created_at->diffForHumans()}}</p>
                 </div>
             </div>
-
         @elseif($notification->type === 'likePost')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -96,7 +95,7 @@
             </div>
         @elseif($notification->type === 'likeComment')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
@@ -114,7 +113,7 @@
             </div>
         @elseif($notification->type === 'system')
             <div
-                class=" transition dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
+                class=" transition bg-primary bg-opacity-50 dark:bg-opacity-50 hover:scale-105 notification-card flex p-3 bg-gray-100 dark:bg-dark rounded-lg">
                 <div
                     class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 flex-shrink-0">
                     <div class="w-5 h-5 flex items-center justify-center text-primary">
