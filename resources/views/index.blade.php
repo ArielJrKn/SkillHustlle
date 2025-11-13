@@ -322,6 +322,8 @@
 
     <script src="{{asset('storage/js_style/index.js')}}"></script>
 
+
+    
     <script>
         document.addEventListener('DOMContentLoaded', function(){
             const searchBtn = document.querySelector('.searchBtn');
@@ -339,6 +341,7 @@
             })
         })
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const shareModal = document.getElementById('shareModal');
