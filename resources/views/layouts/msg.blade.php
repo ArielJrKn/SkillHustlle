@@ -14,6 +14,12 @@
     }
 }
 
+/*@media screen and (max-width: 1366px) and (min-width: 1024px){
+    .sideBarMessage{
+        width: 100%;
+    }
+}*/
+
 @media screen and (max-width: 479px) {
     .sideBarMessage{
         width: 100%;
@@ -203,7 +209,7 @@
     <!-- section 2 - Conversation détaillée -->
     <div class="section2 hidden overscroll-x-none">
         <div class="header p-2 flex justify-between items-center">
-            <div class="text-xl flex w-3/5 font-semibold text-gray-900 dark:text-white" style="align-items: center;">
+            <div class="text-md flex w-3/5 font-semibold text-gray-900 dark:text-white" style="align-items: center;">
                 <i class="ri-arrow-left-line cursor-pointer" id="backListConversation"></i>
                 <div class="ml-3 relative flex items-center">
                     <div class="flex items-center">
@@ -232,7 +238,7 @@
             </div>
         </div>
 
-        <div class="p-2 relative overflow-y-auto w-auto" style="height: 95vh;">
+        <div class="p-2 relative overflow-y-auto w-auto pb-20" style="height: 95vh;">
                 <!-- time less -->
             <div class="flex justify-center p-2 text-xs backdrop-filter backdrop-blur-lg bg-gray-100 dark:bg-dark dark:bg-opacity-50 rounded-lg"
                 style="align-items: center;">Aujourd'hui</div>
@@ -240,7 +246,7 @@
             <!-- receive msg -->
             <div class="text-sm">
                 <div
-                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -254,7 +260,7 @@
             <!-- sent msg -->
             <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                 <div
-                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -273,7 +279,7 @@
             <!-- sent msg -->
             <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                 <div
-                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -292,7 +298,7 @@
             <!-- receive msg -->
             <div class="text-sm">
                 <div
-                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p class="text-sm mb-2">Je vous envoie une capture d'écran de mon travail. Voici où je
                         bloque :</p>
                     <div class="bg-gray-200 rounded-md p-2 flex items-center">
@@ -313,7 +319,7 @@
             <!-- sent msg -->
             <div class="text-sm flex flex-col justify-end " style="align-items: end;">
                 <div
-                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-95 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p>Lorem </p>
                 </div>
                 <div class="flex">
@@ -327,7 +333,7 @@
             <!-- receive msg -->
             <div class="text-sm">
                 <div
-                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 max-w-80 p-2 rounded-lg">
+                    class="bg-primary bg-opacity-40 backdrop-filter backdrop-blur-lg mt-2 p-2 rounded-lg" style="max-width: 70%;">
                     <p class="text-sm mb-2">Je vous envoie une capture d'écran de mon travail. Voici où je
                         bloque :</p>
                     <img class=" rounded-md mr-3"
@@ -350,6 +356,19 @@
                 </label>
                 <div
                     class="flex-1 bg-gray-100 bg-opacity-40 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
+                    <div class="ReplyMsgContent hidden text-sm bg-primary bg-opacity-80 rounded-md w-full p-4">
+                        <div>
+                            <h2 class="text-sm">Kinkin Ariel</h2>
+                        </div>
+                        <div class="text-xs">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
+                    </div>
                     <div class="contentMediaMsg">
                     </div>
                     <input
@@ -564,26 +583,52 @@
 document.addEventListener('DOMContentLoaded', function () {
     const mediaUpload = document.getElementById('mediaUpload');
     const contentMediaMsg = document.querySelector('.contentMediaMsg');
+    let filesList = []; 
 
     mediaUpload.addEventListener('change', function (e) {
-        const files = Array.from(e.target.files);
+        const newFiles = Array.from(e.target.files);
 
-        contentMediaMsg.innerHTML = '';
+        filesList.push(...newFiles);
 
-        files.forEach((media, index) => {
+        renderPreviews();
+    });
+
+    // 🧠 Fonction d’affichage
+    function renderPreviews() {
+        contentMediaMsg.innerHTML = ''; 
+
+        filesList.forEach((media, index) => {
             const fileName = media.name;
             const fileExt = fileName.split('.').pop().toLowerCase();
 
             const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
             const videoExts = ['mp4', 'webm', 'ogg'];
             const audioExts = ['mp3', 'wav', 'ogg'];
-            const docsExts = ['docx', 'pdf', 'html', 'php', 'zip', 'rar'];
-
+            const docsExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'];
 
             const wrapper = document.createElement('div');
             wrapper.style.margin = '10px';
             wrapper.style.display = 'inline-block';
             wrapper.style.textAlign = 'center';
+            wrapper.style.position = 'relative';
+
+            const delBtn = document.createElement('span');
+            delBtn.textContent = '×';
+            delBtn.style.position = 'absolute';
+            delBtn.style.top = '0';
+            delBtn.style.right = '5px';
+            delBtn.style.cursor = 'pointer';
+            delBtn.style.fontSize = '18px';
+            delBtn.style.color = 'red';
+            delBtn.style.fontWeight = 'bold';
+            delBtn.title = 'Supprimer ce fichier';
+            delBtn.addEventListener('click', function () {
+                filesList.splice(index, 1); 
+                // document.querySelector('.section2').classList.remove('hidden');
+                // renderPreviews(); 
+            });
+
+            wrapper.appendChild(delBtn);
 
             if (imageExts.includes(fileExt)) {
                 const src = URL.createObjectURL(media);
@@ -594,13 +639,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 img.style.objectFit = 'cover';
                 img.style.borderRadius = '8px';
                 wrapper.appendChild(img);
-            } 
+            }
             else if (videoExts.includes(fileExt)) {
                 const src = URL.createObjectURL(media);
                 const video = document.createElement('video');
                 video.src = src;
-                video.controls = true;
-                video.style.width = '120px';
+                video.style.height = '100px';
+                video.style.width = '100px';
                 video.style.borderRadius = '8px';
                 wrapper.appendChild(video);
             }
@@ -611,16 +656,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 audio.controls = true;
                 wrapper.appendChild(audio);
             }
+            else if (docsExts.includes(fileExt)) {
+                const iconWrapper = document.createElement('div');
+                iconWrapper.style.width = '100px';
+                iconWrapper.style.height = '100px';
+                iconWrapper.style.display = 'flex';
+                iconWrapper.style.alignItems = 'center';
+                iconWrapper.style.justifyContent = 'center';
+                iconWrapper.style.border = '2px dashed #aaa';
+                iconWrapper.style.borderRadius = '8px';
+
+                const i = document.createElement('i');
+                i.classList.add('ri-file-line');
+                i.style.fontSize = '40px';
+                i.style.color = '#555';
+                iconWrapper.appendChild(i);
+
+                wrapper.appendChild(iconWrapper);
+            }
             else {
                 const warn = document.createElement('p');
-                warn.textContent = `❌ Fichier non supporté: ${fileName}`;
+                warn.textContent = ` Fichier non supporté: ${fileName}`;
                 warn.style.color = 'red';
                 warn.style.fontSize = '14px';
                 wrapper.appendChild(warn);
             }
 
+            const nameTag = document.createElement('p');
+            nameTag.textContent = fileName;
+            nameTag.style.fontSize = '12px';
+            nameTag.style.color = '#555';
+            wrapper.appendChild(nameTag);
+
             contentMediaMsg.appendChild(wrapper);
         });
-    });
+    }
 });
 </script>

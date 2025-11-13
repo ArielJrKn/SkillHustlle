@@ -184,7 +184,7 @@
             <!-- Right Sidebar - message -->
 
 
-            <aside class="absolute hidden top-0 bottom-0 right-0 overflow-hidden z-50 sideBarMessage backdrop-filter backdrop-blur-2xl dark:border-gray-800">
+            <aside class="absolute hidden top-0 bottom-0 right-0 overflow-hidden z-50 sideBarMessage backdrop-filter backdrop-blur-md dark:border-gray-800">
                 @include('layouts.msg')
             </aside>
 
@@ -323,7 +323,7 @@
     <script src="{{asset('storage/js_style/index.js')}}"></script>
 
 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function(){
             const searchBtn = document.querySelector('.searchBtn');
